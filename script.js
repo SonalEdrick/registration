@@ -1,29 +1,19 @@
 $(document).ready(function () {
-  $("#registrationForm").on("submit", function (e) {
-    e.preventDefault(); // Prevent default form submission
+  $("#registrationForm").submit(function (event) {
+    event.preventDefault(); // Prevent form submission
 
-    const formData = $(this).serialize(); // Serialize form data
+    // Collect form data
+    const formData = {
+      name: $("#name").val(),
+      email: $("#email").val(),
+      password: $("#password").val(),
+    };
 
-    $.ajax({
-      url: "process.php",
-      type: "POST",
-      data: formData,
-      success: function (response) {
-        const data = JSON.parse(response); // Parse JSON response
-        if (data.success) {
-          $("#success-message").removeClass("hidden");
-          $("#output").html(`
-              <strong>Name:</strong> ${data.name}<br>
-              <strong>Email:</strong> ${data.email}<br>
-              <strong>Phone:</strong> ${data.phone}
-            `);
-        } else {
-          alert("Submission failed!");
-        }
-      },
-      error: function () {
-        alert("An error occurred while processing the form.");
-      },
-    });
+    // Display the output
+    $("#output").html(`
+          <h2>Registration Successful</h2>
+          <p><strong>Name:</strong> ${formData.name}</p>
+          <p><strong>Email:</strong> ${formData.email}</p>
+      `);
   });
 });
